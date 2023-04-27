@@ -4,5 +4,3 @@
 
 Requisitos:
 - flask
-- vue
-- websocket
