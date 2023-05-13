@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  web:
+    image: hopital-barros-barreto-web:dev
+    container_name: hopital-barros-barreto-web-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './src:/app/src'
+    ports:
+      - '3000:3000'
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
