@@ -7,7 +7,7 @@ export function userHasAccessPermission({ pathname, typeUser }) {
     const permissionsByRole = {
         "Admin": {
             restrict: undefined,
-            access: '*'
+            access: ['/registerterminal', '/choice-terminal-edit']
         },
         "Funcionário": {
             restrict: undefined,

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: process.env.VITE_API_BASE_URL,
+  baseURL: "http://[::1]:3000",
 });
 
 /* Aqui foi utilizado o interceptors do Axios, 

@@ -21,7 +21,7 @@ const classes = {
   },
 
   btnSubmit: {
-    backgroundColor: "#1B98E0",
+    backgroundColor: "#AA4A44",
     color: "white",
     border: "1px solid rgba(0, 0, 0, 0.23)",
   },
@@ -48,14 +48,14 @@ const INITIAL_VALUE_FORMIK = {
   confirmPassword: "",
 };
 
-export default function RegisterDoctor() {
+export default function RegisterTerminal() {
   const history = useHistory();
   const [notify, setNotify] = useState(INITIAL_VALUE_NOTIFY);
 
   const post = (values) => {
     const { confirmPassword, ...data } = values;
     api
-      .post("doctors", data)
+      .post("users", data)
       .then(onSubmitSuccessfully)
       .catch(onSubmitFailed);
   };
@@ -134,38 +134,20 @@ export default function RegisterDoctor() {
           align="center"
           style={{ fontWeight: "bold", marginBottom: 30 }}
         >
-          Cadastro de Médico
+          Cadastro de Totem
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={3} lg={3}>
+          <Grid container spacing={2} rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid item xs={6} sm={6} md={6} lg={6}>
               {textFieldFormik({ id: "name", label: "Nome" })}
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3} lg={3}>
+            <Grid item xs={6} sm={6} md={6} lg={6}>
               {textFieldFormik({ id: "email", label: "E-mail" })}
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3} lg={3}>
-              {inputMaskFormik({
-                id: "CRM",
-                label: "CRM",
-                mask: "999999-aa",
-                useRawValue: true,
-              })}
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={3} lg={3}>
-              {inputMaskFormik({
-                id: "phone",
-                label: "Telefone",
-                mask: "(99) 99999-9999",
-                useRawValue: true,
-              })}
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={6} lg={6}>
+            <Grid item xs={6} sm={6} md={6} lg={6}>
               {textFieldFormik({
                 id: "password",
                 label: "Senha",
@@ -173,7 +155,7 @@ export default function RegisterDoctor() {
               })}
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={6}>
+            <Grid item xs={6} sm={6} md={6} lg={6}>
               {textFieldFormik({
                 id: "confirmPassword",
                 label: "Confirmar senha",
@@ -187,16 +169,6 @@ export default function RegisterDoctor() {
               style={{ marginTop: 10 }}
               justifyContent="center"
             >
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  style={classes.btnCancel}
-                  onClick={() => history.push("/choice-patient-monitoring")}
-                >
-                  Voltar
-                </Button>
-              </Grid>
-
               <Grid item>
                 <Button
                   variant="outlined"

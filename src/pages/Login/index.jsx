@@ -12,10 +12,21 @@ import Grid from "@material-ui/core/Grid";
 import api from "../../services/api";
 import { login } from "../../services/auth";
 import "./styles.css";
+import imgBarrosBarretoBackground from "../../assets/barros-barreto-background.jpg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
+  },
+  image: {
+    backgroundImage: `url(${imgBarrosBarretoBackground})`,
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -65,8 +76,8 @@ export default function SignIn() {
 
       if (
         roleUser === "Admin" ||
-        roleUser === "Funcionário" ||
-        roleUser === "Cliente"
+        roleUser === "Monitor" ||
+        roleUser === "Técnico"
       ) {
         // Salva informações no localstorage para ser usadas no restante do código
         localStorage.setItem("NameUser", res.data.name);
@@ -74,8 +85,6 @@ export default function SignIn() {
         localStorage.setItem("Permission", res.data.permission);
 
         if (roleUser === "Admin") history.push("/registerpatient");
-        if (roleUser === "Funcionário") history.push("/registerdoctor");
-        if (roleUser === "Cliente") history.push('/registermodule');
       } else {
         // Caso o usuário não pertença a nenhuma das roles especificadas a página sofre um refresh.
         alert("Houve um problema com o login, verifique suas credenciais!");

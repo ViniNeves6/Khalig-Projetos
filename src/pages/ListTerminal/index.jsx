@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import ChoicePatient from "../../components/ChoicePatient";
+import ChoicePatient from "../../components/ChoiceTerminal";
 
 export default function ListPatient() {
   const history = useHistory();

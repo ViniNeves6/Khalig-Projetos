@@ -15,10 +15,8 @@ const classes = {
 
 export default function ListItems({ handleDrawerClose, isMobile }) {
   const history = useHistory();
-  const [isOpenPatient, setIsOpenPatient] = useState(false);
-  const [isOpenHospital, setIsOpenHospital] = useState(false);
-  const [isOpenDoctor, setIsOpenDoctor] = useState(false);
-  const [isOpenModule, setIsOpenModule] = useState(false);
+  const [isOpenToten, setIsOpenToten] = useState(false);
+  const [isOpenEmployee, setIsOpenEmployee] = useState(false);
 
   function ListItemLink({ href, ...props }) {
     return (
@@ -33,84 +31,30 @@ export default function ListItems({ handleDrawerClose, isMobile }) {
     );
   }
 
-  const handleClickPatient = () => setIsOpenPatient((prev) => !prev);
-  const handleClickHospital = () => setIsOpenHospital((prev) => !prev);
-  const handleClickModule = () => setIsOpenModule((prev) => !prev);
-  const handleClickDoctor = () => setIsOpenDoctor((prev) => !prev);
+  const handleClickToten = () => setIsOpenToten((prev) => !prev);
+  const handleClickEmployee = () => setIsOpenEmployee((prev) => !prev);
 
   return (
       <div>
         <>
-          <ListItem button onClick={handleClickHospital}>
-            <ListItemText primary="Hospital" style={classes.cor} />
-            {isOpenHospital ? <ExpandLess /> : <ExpandMore />}
+          <ListItem button onClick={handleClickToten}>
+            <ListItemText primary="Totem" style={classes.cor} />
+            {isOpenToten ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
-          <Collapse in={isOpenHospital} timeout="auto" unmountOnExit>
+
+          <Collapse in={isOpenToten} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemLink
-                  button
-                  href="/edithospital"
-                  style={classes.nested}
-              >
-                <ListItemText primary="Editar" />
-              </ListItemLink>
-
-
-            </List>
-          </Collapse>
-        </>
-
-        <>
-          <ListItem button onClick={handleClickDoctor}>
-            <ListItemText primary="Médico" style={classes.cor} />
-            {isOpenDoctor ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={isOpenDoctor} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemLink
-                  button
-                  href="/choice-doctor-edit"
-                  style={classes.nested}
-              >
-                <ListItemText primary="Editar" />
-              </ListItemLink>
-
-              <ListItemLink button href="/registerdoctor" style={classes.nested}>
-                <ListItemText primary="Cadastro" />
-              </ListItemLink>
-
-            </List>
-          </Collapse>
-        </>
-
-        <>
-          <ListItem button onClick={handleClickModule}>
-            <ListItemText primary="Módulo" style={classes.cor} />
-            {isOpenModule ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={isOpenModule} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemLink
-                  button
-                  href="/choice-raspberry-edit"
-                  style={classes.nested}
-              >
-                <ListItemText primary="Editar" />
-              </ListItemLink>
-
-              <ListItemLink button href="/registermodule" style={classes.nested}>
+              <ListItemLink button href="/registerterminal" style={classes.nested}>
                 <ListItemText primary="Cadastro" />
               </ListItemLink>
 
               <ListItemLink
                   button
-                  href="/choice-module-monitoring"
+                  href="/choice-terminal-edit"
                   style={classes.nested}
               >
-                <ListItemText primary="Monitoramento" />
+                <ListItemText primary="Editar" />
               </ListItemLink>
 
               <ListItemLink
@@ -118,48 +62,40 @@ export default function ListItems({ handleDrawerClose, isMobile }) {
                   href="/choice-raspberry-reports"
                   style={classes.nested}
               >
-                <ListItemText primary="Relatório" />
+                <ListItemText primary="Excluir" />
               </ListItemLink>
             </List>
           </Collapse>
         </>
 
-
-
         <>
-          <ListItem button onClick={handleClickPatient}>
-            <ListItemText primary="Paciente" style={classes.cor} />
-            {isOpenPatient ? <ExpandLess /> : <ExpandMore />}
+          <ListItem button onClick={handleClickEmployee}>
+            <ListItemText primary="Funcionário" style={classes.cor} />
+            {isOpenEmployee ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
-          <Collapse in={isOpenPatient} timeout="auto" unmountOnExit>
+          <Collapse in={isOpenEmployee} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemLink
-                  button
-                  href="/choice-patient-edit"
-                  style={classes.nested}
-              >
-                <ListItemText primary="Editar" />
-              </ListItemLink>
-
-              <ListItemLink button href="/registerpatient" style={classes.nested}>
+                  button href="/registermodule" // TODO: Mudar rota para cadastro
+                  style={classes.nested}>
                 <ListItemText primary="Cadastro" />
               </ListItemLink>
 
               <ListItemLink
                   button
-                  href="/choice-patient-monitoring"
+                  href="/choice-raspberry-edit" // TODO: Mudar rota para edição
                   style={classes.nested}
               >
-                <ListItemText primary="Monitoramento" />
+                <ListItemText primary="Editar" />
               </ListItemLink>
 
               <ListItemLink
                   button
-                  href="/choice-patient-reports"
+                  href="/choice-module-monitoring" // TODO: Mudar rota para excluir
                   style={classes.nested}
               >
-                <ListItemText primary="Relatório" />
+                <ListItemText primary="Excluir" />
               </ListItemLink>
             </List>
           </Collapse>

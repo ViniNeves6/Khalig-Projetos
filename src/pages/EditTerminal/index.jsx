@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import api from "../../services/api";
 import moment from "moment";
-import { components } from "./components";
 import { validationSchema } from "./validationSchema";
+import { components } from "./components";
 import Notification from "../../components/Notification/Notification";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -31,31 +31,29 @@ const INITIAL_VALUE_NOTIFY = {
 
 const INITIAL_VALUES_FORMIK = {
   name: "",
-  ctiPhone: "",
-  onDutyPhone: "",
+  email: "",
 };
 
-export default function EditHospital() {
+export default function EditTerminal() {
   const history = useHistory();
-
-  const { hospitalId } = useParams();
-
-  const [valuesFormik, setValuesFormik] = useState(INITIAL_VALUES_FORMIK);
   const [notify, setNotify] = useState(INITIAL_VALUE_NOTIFY);
 
-  const [hospital, setHospital] = useState([]);
+  const { terminalId } = useParams();
+
+  const [valuesFormik, setValuesFormik] = useState(INITIAL_VALUES_FORMIK);
+
   useEffect(() => {
-    api.get(`/hospitals/${hospitalId}`).then((response) => {
-      setHospital(response.data);
 
-      const { data } = response;
+    api
+      .get(`clients/${terminalId}`)
+      .then((response) => {
+        const { data } = response;
 
-      setValuesFormik({
-        name: data.name,
-        ctiPhone: data.ctiPhone,
-        onDutyPhone: data.onDutyPhone,
+        setValuesFormik({
+          name: data.name,
+          email: data.email,
+        });
       });
-    });
   }, []);
 
   const removeOptionalValues = (optionalValues, data) => {
@@ -71,25 +69,12 @@ export default function EditHospital() {
     //Remove de "values" atributos que não possuem o mesmo nome na
     //api, ou que precisam ser tratados antes de serem enviados
     const {
-      ctiPhone,
-      onDutyPhone,
       ...data
     } = values;
 
-    data.ctiPhone = ctiPhone;
-
-    data.onDutyPhone = onDutyPhone;
-
-    const newData = removeOptionalValues(
-      [
-        "ctiPhone",
-        "onDutyPhone",
-      ],
-      data
-    );
 
     api
-      .patch(`/hospitals/${hospitalId}`, newData)
+      .patch(`clients/${terminalId}`, data)
       .then((response) => {
         setNotify({
           isOpen: true,
@@ -98,7 +83,7 @@ export default function EditHospital() {
           title: "Informações atualizadas com sucesso!",
         });
 
-        // setTimeout(() => history.push("/choice-patient-monitoring"), 700);
+        setTimeout(() => history.push("/choice-terminal-edit"), 700);
       })
       .catch((err) => {
         const message = err.response?.data?.error?.message;
@@ -112,6 +97,7 @@ export default function EditHospital() {
         }
       });
   };
+
   const formik = useFormik({
     initialValues: valuesFormik,
     validationSchema: validationSchema,
@@ -132,36 +118,36 @@ export default function EditHospital() {
           align="center"
           style={{ fontWeight: "bold", marginBottom: 30 }}
         >
-          Editar informações do hospital
+          Edição de Totem
         </Typography>
 
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
+
             <Grid item xs={12} sm={6} md={6} lg={6}>
-              {textFieldFormik({
-                id: "name",
-                label: "Nome do Hospital",
-                required: true,
-              })}
+              {textFieldFormik({ id: "name", label: "Nome" })}
             </Grid>
 
             <Grid item xs={12} sm={6} md={6} lg={6}>
-            {inputMaskFormik({
-                id: "ctiPhone",
-                label: "Telefone do CTI",
-                mask: "(99) 99999-9999",
-                useRawValue: true,
-              })}
+              {textFieldFormik({ id: "email", label: "E-mail" })}
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-            {inputMaskFormik({
-                id: "onDutyPhone",
-                label: "Telefone do Plantão",
-                mask: "(99) 99999-9999",
-                useRawValue: true,
-              })}
-            </Grid>
+            <Grid
+              container
+              spacing={2}
+              style={{ marginTop: 10 }}
+              justifyContent="center"
+            >
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  style={classes.btnCancel}
+                  onClick={() => history.push("/choice-terminal-edit")}
+                >
+                  Voltar
+                </Button>
+              </Grid>
+
               <Grid item>
                 <Button
                   variant="outlined"
@@ -172,6 +158,7 @@ export default function EditHospital() {
                 </Button>
               </Grid>
             </Grid>
+          </Grid>
         </form>
       </CardContent>
       <Notification notify={notify} setNotify={setNotify} />

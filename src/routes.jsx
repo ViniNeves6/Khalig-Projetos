@@ -5,19 +5,20 @@ import About from "./pages/About";
 import UserEdit from "./pages/UserEdit";
 import UserRegister from "./pages/UserRegister";
 import RegisterPatient from "./pages/RegisterPatient";
-import EditPatient from "./pages/EditPatient";
-import EditHospital from "./pages/EditHospital";
-import ChoicePatientEdit from "./pages/EditPatient/choicePatient";
-import RegisterDoctor from "./pages/RegisterDoctor";
+import EditTerminal from "./pages/EditTerminal";
+import ChoiceTerminalEdit from "./pages/EditTerminal/choiceTerminal";
+import Monitoring from "./pages/Monitoring";
+import ChoicePatientOnReports from "./pages/Reports/Choice";
+import Report from "./pages/Reports/Report";
+import RegisterTerminal from "./pages/RegisterTerminal";
 import { isAuthenticated } from "./services/auth";
 import Sidebar from "./components/Sidebar";
+import {userHasAccessPermission} from "./services/permission";
 import Footer from "./components/Footer";
-import ListPatient from "./pages/ListPatient";
-import RegisterRaspberry from "./pages/RegisterRaspberry";
+import ListPatient from "./pages/ListTerminal";
 import ChoiceRaspberryMonitoring from "./pages/ListRaspberry";
+import RaspberryMonitoring from "./pages/MonitoringRaspberry";
 import ChoiceRaspberryReport from "./pages/RaspberryReport/Choice";
-import ChoiceDoctorEdit from "./pages/EditDoctor";
-import ChatBox from "./pages/ChatBox";
 
 /* Função destinada para possibilitar acesso somente as rotas com autenticação */
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
@@ -33,6 +34,12 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
     />
 );
 
+const RoleRoute = ({ role, ...props }) => {
+    return JSON.parse(localStorage.getItem("Permission")) === role
+        ? <Route {...props} />
+        : <Redirect to="/" />;
+};
+
 export default function Routes() {
     return (
         <Switch>
@@ -43,27 +50,26 @@ export default function Routes() {
                 {/*<Navbar/>*/}
                 <Sidebar>
                     {/* Rotas acessadas somente com autenticação */}
-                    <PrivateRoute path="/login" component={Login} />
-                    <PrivateRoute path="/about" component={About} />
-                    <PrivateRoute
-                        path="/edithospital/:hospitalId"
-                        component={EditHospital}
+                    <PrivateRoute path="/about" component={About}
                     />
-                    <PrivateRoute path="/registerdoctor" component={RegisterDoctor} />
-                    <PrivateRoute path="/registerpatient" component={RegisterPatient} />
+
+                    <PrivateRoute
+                        path="/registerterminal"
+                        component={RegisterTerminal}
+                    />
                     <PrivateRoute
                         path="/choice-patient-monitoring"
                         component={ListPatient}
                     />
-                    <PrivateRoute path="/registermodule" component={RegisterRaspberry} />
                     <PrivateRoute path="/choice-module-monitoring" component={ChoiceRaspberryMonitoring} />
+                    <PrivateRoute path="/monitoring-module/:moduleId" component={RaspberryMonitoring} />
                     <PrivateRoute
-                        path="/choice-patient-edit"
-                        component={ChoicePatientEdit}
+                        path="/choice-patient-reports"
+                        component={ChoicePatientOnReports}
                     />
                     <PrivateRoute
-                        path="/choice-doctor-edit"
-                        component={ChoiceDoctorEdit}
+                        path="/choice-terminal-edit"
+                        component={ChoiceTerminalEdit}
                     />
 
                     <PrivateRoute
@@ -72,12 +78,14 @@ export default function Routes() {
                     />
 
                     <PrivateRoute
-                        path="/editpatient/:patientId"
-                        component={EditPatient}
+                        path="/edit-terminal/:terminalId"
+                        component={EditTerminal}
                     />
-                    <PrivateRoute path="/chat" component={ChatBox} />
+
+                    <PrivateRoute path="/monitoring/:doctorId" component={Monitoring} />
+                    <PrivateRoute path="/report/:doctorId" component={Report} />
+                    <PrivateRoute path="/userregister" component={UserRegister} />
                     <PrivateRoute path="/useredit/:id" component={UserEdit} />
-                    <Footer />
                 </Sidebar>
             </>
             <Route path="*" component={() => <h1>Page not found</h1>} />

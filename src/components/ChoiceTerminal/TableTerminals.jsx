@@ -11,14 +11,9 @@ const classes = {
     }
 }
 
-export default function TablePatients({ patients, handleClickRow }) {
+export default function TableTerminals({ terminals, handleClickRow }) {
 
     const columns = [
-        {
-            field: 'cpf',
-            headerName: 'CPF',
-            width: 180
-        },
         {
             field: 'name',
             headerName: 'Nome',
@@ -29,16 +24,16 @@ export default function TablePatients({ patients, handleClickRow }) {
     return (
         <>
             {
-                patients.length === 0 ?
+                terminals.length === 0 ?
                     <Typography align='center' variant='h6'>
-                        Não há pacientes que atendam os filtros aplicados
+                        Não há totens que atendam os filtros aplicados
                     </Typography> :
                     <Box sx={{ height: 300, width: '100%' }}>
                         <DataGrid
                             onRowClick={handleClickRow}
                             columns={columns}
                             getRowId={(row) => row.id}
-                            rows={patients}
+                            rows={terminals}
                             sx={classes.dataGrid}
                             pageSize={5}
                             rowsPerPageOptions={[5]}

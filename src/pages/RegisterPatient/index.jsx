@@ -259,7 +259,6 @@ export default function RegisterPatient() {
                 label: "Intervalo de Mensuração",
                 required: true,
                 options: [
-                  { value: 10, description: "10 minutos" },
                   { value: 30, description: "30 minutos" },
                   { value: 60, description: "60 minutos" },
                 ],
